@@ -1,5 +1,6 @@
 #include <iostream>
 #include <chrono>
+#include <cstring>
 
 void tightLoop() {
     for (int i = 0; i < 100000; ++i) {

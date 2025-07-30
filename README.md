@@ -47,24 +47,23 @@ void callDummy() {
 ```
 /project-root
 ├── CMakeLists.txt
-└── benchmark.cpp
+└── main.cpp
 ```
 
 #### ✅ Example `CMakeLists.txt`
 
 ```cmake
 cmake_minimum_required(VERSION 3.10)
-project(StackProtectionBenchmark CXX)
 
-add_executable(benchmark_protected benchmark.cpp)
-add_executable(benchmark_unprotected benchmark.cpp)
+add_executable(main main.cpp)
+add_executable(main_unprotected main.cpp)
 
 if (MSVC)
-    target_compile_options(benchmark_protected PRIVATE /GS)
-    target_compile_options(benchmark_unprotected PRIVATE /GS-)  # Disable stack protection
+    target_compile_options(main PRIVATE /GS)
+    target_compile_options(main_unprotected PRIVATE /GS-)  # Disable stack protection
 else()
-    target_compile_options(benchmark_protected PRIVATE -fstack-protector-strong)
-    target_compile_options(benchmark_unprotected PRIVATE -fno-stack-protector)
+    target_compile_options(main PRIVATE -fstack-protector-strong)
+    target_compile_options(main_unprotected PRIVATE -fno-stack-protector)
 endif()
 ```
 
@@ -78,13 +77,23 @@ cmake --build .
 
 This will produce:
 
-* `benchmark_protected` — with stack protection
-* `benchmark_unprotected` — without it
+* `main` — with stack protection
+* `main_unprotected` — without it
 
 ---
 
 ### 🚀 Running the Benchmark
 
+```bash
+./main
+./main_unprotected
+```
+
+Sample output:
+
+```
+Tight loop executed.
+Execution time: 23.41 ms
 ```bash
 ./main
 ./main_unprotected
